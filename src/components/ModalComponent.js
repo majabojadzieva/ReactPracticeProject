@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function ModalComponent() {
+function ModalComponent(props) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setShow(true);
+    // console.log(props.userId, props.userName);
+  };
 
   return (
     <>
@@ -19,10 +22,13 @@ function ModalComponent() {
           <Modal.Title>Edit user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <from class="d-flex justify-content-center">
+          <form className="d-flex justify-content-center">
             <label style={{ margin: "1rem" }}>New user name:</label>
-            <input style={{ margin: "1rem" }}></input>
-          </from>
+            <input
+              style={{ margin: "1rem" }}
+              placeholder={props.userName}
+            ></input>
+          </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

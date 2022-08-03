@@ -15,7 +15,7 @@ function UserItem(props) {
           <p className="card-text">Created at: {props.date}</p>
 
           <div className="text-center">
-            <ModalComponent />
+            <ModalComponent userId={props.id} userName={props.name} />
 
             <button className="btn btn-primary m-1" onClick={props.deleteUser}>
               Delete user
