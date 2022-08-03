@@ -1,9 +1,13 @@
 import "./App.css";
+import UsersForm from "./components/UsersForm";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
+    <div>
+      <header>
+        <h1>List of Users</h1>
+      </header>
+      <UsersForm />
     </div>
   );
 }

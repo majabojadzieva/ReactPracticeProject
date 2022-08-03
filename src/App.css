@@ -1,8 +1,7 @@
-.App {
+header {
+  font-size: large;
+  color: rgb(0, 0, 0);
   text-align: center;
-  background-color: red;
-}
-
-.App h1 {
-  color: blue;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
 }
