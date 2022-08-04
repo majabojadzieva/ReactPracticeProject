@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import UsersContext from "../store/users-context";
 
 function ModalComponent(props) {
   const [show, setShow] = useState(false);
+  const usersCtx = useContext(UsersContext);
 
   const inputRef = useRef();
 
@@ -26,8 +28,52 @@ function ModalComponent(props) {
       );
 
       const data = await response.json();
-      console.log(data.name);
+
+      const selectedUserIndex = usersCtx.users.findIndex((user) => {
+        return user.id === data.id;
+      });
+
+      const selectedUser = usersCtx.users[selectedUserIndex];
+
+      // 1
+      //  usersCtx.users[selectedUserIndex].name = data.name;
+
+      // 2
+      // usersCtx.users.map((user) =>
+      //   user.id === selectedUser.id
+      //     ? { ...selectedUser, name: data.name }
+      //     : user
+      // );
+
+      // 3
+      // usersCtx.users = [...usersCtx.users, selectedUser.name === data.name];
+
+      // 4
+      // usersCtx.users = usersCtx.users.map((user) => {
+      //   if (user.id === selectedUser.id) {
+      //     return { ...user, name: data.name };
+      //   }
+
+      //   return user;
+      // });
+
+      // 5
+      // let updatedUsers;
+
+      // if (selectedUser) {
+      //   const updatedUser = {
+      //     ...selectedUser,
+      //     name: data.name,
+      //   };
+      //   updatedUsers = [...usersCtx.users];
+      //   updatedUsers[selectedUserIndex] = updatedUser;
+      // } else {
+      //   updatedUsers = usersCtx.items;
+      // }
+
+      // usersCtx.items = updatedUsers;
     }
+
     editUser();
 
     setShow(false);

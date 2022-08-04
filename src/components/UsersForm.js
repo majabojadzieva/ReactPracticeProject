@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import UserItem from "./UserItem";
+import UsersContext from "../store/users-context";
 
 function UsersForm() {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  const usersCtx = useContext(UsersContext);
 
   // **************************GET DATA********************************
-
   async function getUsers() {
     setIsLoading(true);
     try {
@@ -24,13 +22,19 @@ function UsersForm() {
       }
 
       const data = await response.json();
-      setUsers(data);
+      usersCtx.users.push(...data);
+
+      // setUsers(data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       setError(error.message);
     }
   }
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   // ******************************DELETE DATA*******************************
 
@@ -46,8 +50,8 @@ function UsersForm() {
         throw new Error("Something went wrong!");
       }
 
-      const updatedUsersList = users.filter((user) => user.id !== id);
-      setUsers(updatedUsersList);
+      usersCtx.users = usersCtx.users.filter((user) => user.id !== id);
+      // setUsers(updatedUsersList);
       alert("User deleted!");
       setIsLoading(false);
     } catch (error) {
@@ -61,10 +65,10 @@ function UsersForm() {
   let content = <h5 className="text-center">Loading...</h5>;
 
   if (!isLoading && !error) {
-    return (
+    content = (
       <div className=".container m-0-1 m-sm-3 m-md-5">
         <div className="row justify-content-around">
-          {users.map((user) => {
+          {usersCtx.users.map((user) => {
             return (
               <UserItem
                 key={user.id}
@@ -84,7 +88,7 @@ function UsersForm() {
   }
 
   if (!isLoading && error) {
-    return <h5 className="text-center">{error}</h5>;
+    content = <h5 className="text-center">{error}</h5>;
   }
 
   // ***************************RETURN***************************
