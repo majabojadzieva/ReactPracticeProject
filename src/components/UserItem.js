@@ -1,4 +1,4 @@
-import ModalComponent from "./ModalComponent";
+import Button from "react-bootstrap/Button";
 
 function UserItem(props) {
   return (
@@ -15,7 +15,9 @@ function UserItem(props) {
           <p className="card-text">Created at: {props.date}</p>
 
           <div className="text-center">
-            <ModalComponent userId={props.id} userName={props.name} />
+            <Button variant="primary" onClick={props.showHandler}>
+              Edit user
+            </Button>
 
             <button className="btn btn-primary m-1" onClick={props.deleteUser}>
               Delete user

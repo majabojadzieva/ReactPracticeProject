@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import UserItem from "./UserItem";
-import UsersContext from "../store/users-context";
+import Spinner from "react-bootstrap/Spinner";
+import ModalComponent from "./ModalComponent";
 
 function UsersForm() {
-  // const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const usersCtx = useContext(UsersContext);
 
   // **************************GET DATA********************************
   async function getUsers() {
@@ -22,9 +21,8 @@ function UsersForm() {
       }
 
       const data = await response.json();
-      usersCtx.users.push(...data);
 
-      // setUsers(data);
+      setUsers(data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -50,8 +48,8 @@ function UsersForm() {
         throw new Error("Something went wrong!");
       }
 
-      usersCtx.users = usersCtx.users.filter((user) => user.id !== id);
-      // setUsers(updatedUsersList);
+      const updatedUsersList = users.filter((user) => user.id !== id);
+      setUsers(updatedUsersList);
       alert("User deleted!");
       setIsLoading(false);
     } catch (error) {
@@ -60,15 +58,47 @@ function UsersForm() {
     }
   }
 
+  // ********************************MODAL****************************
+
+  const [show, setShow] = useState(false);
+  const inputRef = useRef();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const submitHandler = () => {
+    // async function editUser() {
+    //   const response = await fetch(
+    //     "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" + id,
+    //     {
+    //       method: "PUT",
+    //       body: JSON.stringify({
+    //         name: inputRef.current.value,
+    //       }),
+    //       headers: {
+    //         "Content-type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   const data = await response.json();
+    // }
+  };
+
   // ******************************CONTENT****************************
 
-  let content = <h5 className="text-center">Loading...</h5>;
+  let content = (
+    <div className="text-center">
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    </div>
+  );
 
   if (!isLoading && !error) {
     content = (
       <div className=".container m-0-1 m-sm-3 m-md-5">
         <div className="row justify-content-around">
-          {usersCtx.users.map((user) => {
+          {users.map((user) => {
             return (
               <UserItem
                 key={user.id}
@@ -78,6 +108,9 @@ function UsersForm() {
                 date={user.createdAt}
                 deleteUser={() => {
                   deleteUserHandler(user.id);
+                }}
+                showHandler={() => {
+                  handleShow();
                 }}
               />
             );
@@ -93,7 +126,18 @@ function UsersForm() {
 
   // ***************************RETURN***************************
 
-  return <>{content}</>;
+  return (
+    <>
+      {content}
+      <ModalComponent
+        handleClose={handleClose}
+        handleShow={handleShow}
+        submitHandler={submitHandler}
+        show={show}
+        inputRef={inputRef}
+      />
+    </>
+  );
 }
 
 export default UsersForm;
