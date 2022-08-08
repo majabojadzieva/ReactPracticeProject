@@ -7,6 +7,7 @@ function UsersForm() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [placeholder, setPlaceholder] = useState("");
 
   // **************************GET DATA********************************
   async function getUsers() {
@@ -64,7 +65,10 @@ function UsersForm() {
   const inputRef = useRef();
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (userName) => {
+    setShow(true);
+    setPlaceholder(userName);
+  };
 
   const submitHandler = () => {
     // async function editUser() {
@@ -82,6 +86,8 @@ function UsersForm() {
     //   );
     //   const data = await response.json();
     // }
+    console.log(inputRef.current.value);
+    setShow(false);
   };
 
   // ******************************CONTENT****************************
@@ -110,7 +116,7 @@ function UsersForm() {
                   deleteUserHandler(user.id);
                 }}
                 showHandler={() => {
-                  handleShow();
+                  handleShow(user.name);
                 }}
               />
             );
@@ -135,6 +141,7 @@ function UsersForm() {
         submitHandler={submitHandler}
         show={show}
         inputRef={inputRef}
+        selectedUserName={placeholder}
       />
     </>
   );

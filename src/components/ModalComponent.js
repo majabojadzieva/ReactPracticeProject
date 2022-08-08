@@ -14,7 +14,7 @@ function ModalComponent(props) {
             <input
               ref={props.inputRef}
               style={{ margin: "1rem" }}
-              placeholder={"Primer"}
+              placeholder={props.selectedUserName}
             ></input>
           </form>
         </Modal.Body>
