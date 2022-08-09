@@ -1,5 +1,12 @@
 header {
   font-size: large;
+  color: blue;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+}
+
+main {
+  font-size: large;
   color: rgb(0, 0, 0);
   text-align: center;
   margin-top: 3rem;
