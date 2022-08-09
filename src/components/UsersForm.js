@@ -7,7 +7,6 @@ function UsersForm() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [placeholder, setPlaceholder] = useState("");
 
   // **************************GET DATA********************************
   async function getUsers() {
@@ -61,34 +60,43 @@ function UsersForm() {
 
   // ********************************MODAL****************************
 
-  const [show, setShow] = useState(false);
+  const initialModalData = {
+    show: false,
+    user: { name: "", id: "" },
+  };
+
+  const [modalData, setModalData] = useState(initialModalData);
   const inputRef = useRef();
 
-  const handleClose = () => setShow(false);
-  const handleShow = (userName) => {
-    setShow(true);
-    setPlaceholder(userName);
-  };
+  const handleClose = () => setModalData(initialModalData);
+  const handleShow = (userName, userId) =>
+    setModalData({
+      show: true,
+      user: { name: userName, id: userId },
+    });
 
-  const submitHandler = () => {
-    // async function editUser() {
-    //   const response = await fetch(
-    //     "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" + id,
-    //     {
-    //       method: "PUT",
-    //       body: JSON.stringify({
-    //         name: inputRef.current.value,
-    //       }),
-    //       headers: {
-    //         "Content-type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   const data = await response.json();
-    // }
-    console.log(inputRef.current.value);
-    setShow(false);
-  };
+  function submitHandler() {
+    async function editUser() {
+      await fetch(
+        "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
+          modalData.user.id,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            name: inputRef.current.value,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      getUsers();
+    }
+    editUser();
+
+    setModalData(initialModalData);
+  }
 
   // ******************************CONTENT****************************
 
@@ -116,7 +124,7 @@ function UsersForm() {
                   deleteUserHandler(user.id);
                 }}
                 showHandler={() => {
-                  handleShow(user.name);
+                  handleShow(user.name, user.id);
                 }}
               />
             );
@@ -139,9 +147,9 @@ function UsersForm() {
         handleClose={handleClose}
         handleShow={handleShow}
         submitHandler={submitHandler}
-        show={show}
+        showModal={modalData.show}
         inputRef={inputRef}
-        selectedUserName={placeholder}
+        modalPlaceholder={modalData.user.name}
       />
     </>
   );

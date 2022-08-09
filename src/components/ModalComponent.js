@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 function ModalComponent(props) {
   return (
     <>
-      <Modal show={props.show} onHide={props.handleClose}>
+      <Modal show={props.showModal} onHide={props.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit user</Modal.Title>
         </Modal.Header>
@@ -14,7 +14,7 @@ function ModalComponent(props) {
             <input
               ref={props.inputRef}
               style={{ margin: "1rem" }}
-              placeholder={props.selectedUserName}
+              placeholder={props.modalPlaceholder}
             ></input>
           </form>
         </Modal.Body>
