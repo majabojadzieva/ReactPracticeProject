@@ -110,8 +110,8 @@ function UsersForm() {
 
   if (!isLoading && !error) {
     content = (
-      <div className=".container m-5 ">
-        <div className="row justify-content-around">
+      <div className="container-fluid">
+        <div className="row">
           {users.map((user) => {
             return (
               <UserItem

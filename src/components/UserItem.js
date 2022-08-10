@@ -18,14 +18,14 @@ function UserItem(props) {
               onClick={props.showHandler}
               className="col-5 "
             >
-              Edit user
+              Edit
             </Button>
 
             <button
-              className="btn btn-primary col-5 "
+              className="btn btn-danger col-5 "
               onClick={props.deleteUser}
             >
-              Delete user
+              Delete
             </button>
           </div>
         </div>
