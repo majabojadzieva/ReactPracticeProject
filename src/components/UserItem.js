@@ -2,30 +2,35 @@ import Button from "react-bootstrap/Button";
 
 function UserItem(props) {
   return (
-    <>
-      <div className="card " style={{ width: "18rem", margin: "1rem" }}>
-        <img
-          src={props.avataru}
-          className="card-img-top"
-          alt=""
-          style={{ marginTop: "1rem" }}
-        />
+    <div className="col-12 col-sm-6  col-lg-4 col-xxl-3">
+      <div
+        className="card justify-content-center"
+        style={{ width: "auto", margin: "1rem" }}
+      >
+        <img src={props.avataru} className="card-img-top" alt="" />
         <div className="card-body">
           <h5 className="card-title">{props.name}</h5>
           <p className="card-text">Created at: {props.date}</p>
 
-          <div className="text-center">
-            <Button variant="primary" onClick={props.showHandler}>
+          <div className="row justify-content-around">
+            <Button
+              variant="primary"
+              onClick={props.showHandler}
+              className="col-5 "
+            >
               Edit user
             </Button>
 
-            <button className="btn btn-primary m-1" onClick={props.deleteUser}>
+            <button
+              className="btn btn-primary col-5 "
+              onClick={props.deleteUser}
+            >
               Delete user
             </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

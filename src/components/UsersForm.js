@@ -110,7 +110,7 @@ function UsersForm() {
 
   if (!isLoading && !error) {
     content = (
-      <div className=".container m-0-1 m-sm-3 m-md-5">
+      <div className=".container m-5 ">
         <div className="row justify-content-around">
           {users.map((user) => {
             return (
