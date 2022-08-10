@@ -7,6 +7,7 @@ function Navigation() {
     <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/">My Users Project</Navbar.Brand>
+
         <Nav>
           <Nav.Link href="/users-list">Users List</Nav.Link>
           <Nav.Link href="/add-new-user">Add new user</Nav.Link>

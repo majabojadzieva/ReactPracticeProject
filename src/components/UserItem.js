@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 function UserItem(props) {
   return (
     <>
-      <div className="card" style={{ width: "18rem", margin: "1rem" }}>
+      <div className="card " style={{ width: "18rem", margin: "1rem" }}>
         <img
           src={props.avataru}
           className="card-img-top"
