@@ -4,7 +4,9 @@ import Modal from "react-bootstrap/Modal";
 function ModalComponent(props) {
   return (
     <>
-      <Modal show={props.showModal} onHide={props.handleClose}>
+      {/* ****************EDIT USER MODAL****************** */}
+
+      <Modal show={props.showEditModal} onHide={props.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit user</Modal.Title>
         </Modal.Header>
@@ -22,8 +24,27 @@ function ModalComponent(props) {
           <Button variant="secondary" onClick={props.handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.submitHandler}>
+          <Button variant="primary" onClick={props.submitHandlerEdit}>
             Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* ****************CONFIRM DELETE MODAL****************** */}
+
+      <Modal show={props.showDeleteModal} onHide={props.handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete user</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete {props.modalPlaceholder} ?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={props.handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={props.submitHandlerDelete}>
+            Yes
           </Button>
         </Modal.Footer>
       </Modal>

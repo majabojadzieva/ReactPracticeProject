@@ -15,7 +15,7 @@ function UserItem(props) {
           <div className="row justify-content-around">
             <Button
               variant="primary"
-              onClick={props.showHandler}
+              onClick={props.showEditHandler}
               className="col-5 "
             >
               Edit
@@ -23,7 +23,7 @@ function UserItem(props) {
 
             <button
               className="btn btn-danger col-5 "
-              onClick={props.deleteUser}
+              onClick={props.showDeleteHandler}
             >
               Delete
             </button>

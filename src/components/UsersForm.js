@@ -34,34 +34,11 @@ function UsersForm() {
     getUsers();
   }, []);
 
-  // ******************************DELETE DATA*******************************
-
-  async function deleteUserHandler(id) {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" + id,
-        { method: "DELETE" }
-      );
-
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const updatedUsersList = users.filter((user) => user.id !== id);
-      setUsers(updatedUsersList);
-      alert("User deleted!");
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      setError(error.message);
-    }
-  }
-
   // ********************************MODAL****************************
 
   const initialModalData = {
-    show: false,
+    showEdit: false,
+    showDelete: false,
     user: { name: "", id: "" },
   };
 
@@ -69,33 +46,65 @@ function UsersForm() {
   const inputRef = useRef();
 
   const handleClose = () => setModalData(initialModalData);
-  const handleShow = (userName, userId) =>
+
+  const handleShowEdit = (userName, userId) =>
     setModalData({
-      show: true,
+      showEdit: true,
+      showDelete: false,
       user: { name: userName, id: userId },
     });
 
-  function submitHandler() {
-    async function editUser() {
-      await fetch(
-        "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
-          modalData.user.id,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            name: inputRef.current.value,
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
+  const handleShowDelete = (userName, userId) =>
+    setModalData({
+      showEdit: false,
+      showDelete: true,
+      user: { name: userName, id: userId },
+    });
 
-      getUsers();
-    }
-    editUser();
+  async function submitHandlerEdit() {
+    await fetch(
+      "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
+        modalData.user.id,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          name: inputRef.current.value,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
+
+    getUsers();
 
     setModalData(initialModalData);
+  }
+
+  async function submitHandlerDelete() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
+          modalData.user.id,
+        { method: "DELETE" }
+      );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const updatedUsersList = users.filter(
+        (user) => user.id !== modalData.user.id
+      );
+      setUsers(updatedUsersList);
+      alert("User deleted!");
+      setIsLoading(false);
+      handleClose();
+    } catch (error) {
+      setIsLoading(false);
+      setError(error.message);
+    }
   }
 
   // ******************************CONTENT****************************
@@ -120,11 +129,11 @@ function UsersForm() {
                 name={user.name}
                 avataru={user.avataru}
                 date={user.createdAt}
-                deleteUser={() => {
-                  deleteUserHandler(user.id);
+                showEditHandler={() => {
+                  handleShowEdit(user.name, user.id);
                 }}
-                showHandler={() => {
-                  handleShow(user.name, user.id);
+                showDeleteHandler={() => {
+                  handleShowDelete(user.name, user.id);
                 }}
               />
             );
@@ -146,11 +155,14 @@ function UsersForm() {
       {content}
       <ModalComponent
         handleClose={handleClose}
-        handleShow={handleShow}
-        submitHandler={submitHandler}
-        showModal={modalData.show}
         inputRef={inputRef}
         modalPlaceholder={modalData.user.name}
+        // **********submit handlers
+        submitHandlerEdit={submitHandlerEdit}
+        submitHandlerDelete={submitHandlerDelete}
+        // **********show handlers
+        showEditModal={modalData.showEdit}
+        showDeleteModal={modalData.showDelete}
       />
     </>
   );
