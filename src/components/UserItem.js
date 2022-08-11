@@ -14,7 +14,7 @@ function UserItem(props) {
 
           <div className="row justify-content-around">
             <Button
-              variant="primary"
+              variant="dark"
               onClick={props.showEditHandler}
               className="col-5 "
             >

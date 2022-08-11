@@ -24,7 +24,7 @@ function ModalComponent(props) {
           <Button variant="secondary" onClick={props.handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.submitHandlerEdit}>
+          <Button variant="dark" onClick={props.submitHandlerEdit}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -43,7 +43,7 @@ function ModalComponent(props) {
           <Button variant="secondary" onClick={props.handleClose}>
             No
           </Button>
-          <Button variant="primary" onClick={props.submitHandlerDelete}>
+          <Button variant="dark" onClick={props.submitHandlerDelete}>
             Yes
           </Button>
         </Modal.Footer>

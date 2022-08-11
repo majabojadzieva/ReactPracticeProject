@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 
 function Navigation() {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand href="/">My Users Project</Navbar.Brand>
 

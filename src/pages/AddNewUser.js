@@ -37,7 +37,7 @@ function AddNewUser(props) {
             <Form.Label>User name:</Form.Label>
             <Form.Control type="text" ref={nameRef} />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="dark" type="submit">
             Submit
           </Button>
         </Form>
