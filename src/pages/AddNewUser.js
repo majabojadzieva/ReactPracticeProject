@@ -9,6 +9,7 @@ function AddNewUser(props) {
 
   function newUserHandler(e) {
     e.preventDefault();
+
     const newUserData = {
       name: nameRef.current.value,
     };

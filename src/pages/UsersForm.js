@@ -34,7 +34,7 @@ function UsersForm() {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [users.length]);
 
   // ********************************MODAL****************************
 
@@ -115,9 +115,9 @@ function UsersForm() {
 
   // ****************UPDATE LIST WHEN NEW USER IS ADDED*************************
 
-  useEffect(() => {
-    getUsers();
-  }, [users.length]);
+  // useEffect(() => {
+  //   getUsers();
+  // }, [users.length]);
 
   // ******************************CONTENT****************************
 
