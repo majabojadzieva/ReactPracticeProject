@@ -21,7 +21,6 @@ function AddNewUser(props) {
     }
     addUser();
     nameRef.current.value = "";
-    alert("User added");
     history.replace("/users-list");
   }
 

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import UserItem from "../components/UserItem";
 import Spinner from "react-bootstrap/Spinner";
 import ModalComponent from "../components/ModalComponent";
+import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
 
 function UsersForm() {
   const [users, setUsers] = useState([]);
@@ -111,6 +113,12 @@ function UsersForm() {
     }
   }
 
+  // ****************UPDATE LIST WHEN NEW USER IS ADDED*************************
+
+  useEffect(() => {
+    getUsers();
+  }, [users.length]);
+
   // ******************************CONTENT****************************
 
   let content = (
@@ -123,7 +131,7 @@ function UsersForm() {
 
   if (!isLoading && !error) {
     content = (
-      <div className="container-fluid">
+      <div className="container ml-3 mr-3">
         <div className="row">
           {users.map((user) => {
             return (
@@ -151,12 +159,22 @@ function UsersForm() {
     content = <h5 className="text-center">{error}</h5>;
   }
 
+  const emptyList = (
+    <div>
+      <p>The list is empty.</p>
+
+      <Nav.Link href="/add-new-user">
+        <Button variant="dark">Add user</Button>
+      </Nav.Link>
+    </div>
+  );
+
   // ***************************RETURN***************************
 
   return (
     <>
-      <h1>List of Users</h1>
-      {content}
+      <h1 className="m-3">List of Users</h1>
+      {users.length === 0 && !isLoading && !error ? emptyList : content}
       <ModalComponent
         handleClose={handleClose}
         inputRef={inputRef}

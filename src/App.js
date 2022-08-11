@@ -13,12 +13,8 @@ function App() {
       <main>
         <Switch>
           <Route path="/" exact component={UsersForm} />
-          <Route path="/users-list">
-            <UsersForm />
-          </Route>
-          <Route path="/add-new-user">
-            <AddNewUser />
-          </Route>
+          <Route path="/users-list" component={UsersForm} />
+          <Route path="/add-new-user" component={AddNewUser} />
         </Switch>
       </main>
     </>
