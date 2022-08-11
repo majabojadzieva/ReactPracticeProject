@@ -1,8 +1,8 @@
 import "./App.css";
 import Navigation from "./components/Navigation";
-import UsersForm from "./components/UsersForm";
-import { Redirect, Route, Switch } from "react-router-dom";
-import AddNewUser from "./components/AddNewUser";
+import UsersForm from "./pages/UsersForm";
+import { Route, Switch } from "react-router-dom";
+import AddNewUser from "./pages/AddNewUser";
 
 function App() {
   return (
@@ -12,9 +12,7 @@ function App() {
       </header>
       <main>
         <Switch>
-          <Route path="/" exact>
-            <Redirect to="/users-list" />
-          </Route>
+          <Route path="/" exact component={UsersForm} />
           <Route path="/users-list">
             <UsersForm />
           </Route>

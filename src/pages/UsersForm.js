@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import UserItem from "./UserItem";
+import UserItem from "../components/UserItem";
 import Spinner from "react-bootstrap/Spinner";
-import ModalComponent from "./ModalComponent";
+import ModalComponent from "../components/ModalComponent";
 
 function UsersForm() {
   const [users, setUsers] = useState([]);
@@ -61,8 +61,10 @@ function UsersForm() {
       user: { name: userName, id: userId },
     });
 
+  // ********************************EDIT USER****************************
+
   async function submitHandlerEdit() {
-    await fetch(
+    const response = await fetch(
       "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
         modalData.user.id,
       {
@@ -76,13 +78,18 @@ function UsersForm() {
       }
     );
 
-    getUsers();
+    const data = await response.json();
+
+    const selectedUserIndex = users.findIndex((user) => user.id === data.id);
+
+    users[selectedUserIndex].name = data.name;
 
     setModalData(initialModalData);
   }
 
+  // ********************************DELETE USER****************************
+
   async function submitHandlerDelete() {
-    setIsLoading(true);
     try {
       const response = await fetch(
         "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
@@ -98,11 +105,8 @@ function UsersForm() {
         (user) => user.id !== modalData.user.id
       );
       setUsers(updatedUsersList);
-      alert("User deleted!");
-      setIsLoading(false);
       handleClose();
     } catch (error) {
-      setIsLoading(false);
       setError(error.message);
     }
   }
