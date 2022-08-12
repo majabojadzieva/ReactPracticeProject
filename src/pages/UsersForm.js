@@ -30,6 +30,18 @@ function UsersForm() {
       setIsLoading(false);
       setError(error.message);
     }
+
+    // const date = new Date(users[0].createdAt);
+    // console.log(date);
+
+    // // get the date as a string
+    // const n = date.toDateString();
+
+    // // get the time as a string
+    // const time = date.toLocaleTimeString();
+
+    // // display date
+    // console.log(`${n}, ${time}`);
   }
 
   useEffect(() => {
@@ -113,11 +125,7 @@ function UsersForm() {
     }
   }
 
-  // ****************UPDATE LIST WHEN NEW USER IS ADDED*************************
-
-  // useEffect(() => {
-  //   getUsers();
-  // }, [users.length]);
+  // ****************DISPLAY TIME*************************
 
   // ******************************CONTENT****************************
 
@@ -134,13 +142,16 @@ function UsersForm() {
       <div className="container ml-3 mr-3">
         <div className="row">
           {users.map((user) => {
+            const displayDate = new Date(user.createdAt).toDateString();
+            const displayTime = new Date(user.createdAt).toLocaleTimeString();
+            const userCreatedAt = `${displayDate}, ${displayTime}`;
             return (
               <UserItem
                 key={user.id}
                 id={user.id}
                 name={user.name}
                 avataru={user.avataru}
-                date={user.createdAt}
+                date={userCreatedAt}
                 showEditHandler={() => {
                   handleShowEdit(user.name, user.id);
                 }}

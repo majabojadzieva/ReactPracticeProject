@@ -1,5 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 function ModalComponent(props) {
   return (
@@ -11,14 +12,20 @@ function ModalComponent(props) {
           <Modal.Title>Edit user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form className="d-flex justify-content-center">
-            <label style={{ margin: "1rem" }}>New user name:</label>
-            <input
-              ref={props.inputRef}
-              style={{ margin: "1rem" }}
-              placeholder={props.modalPlaceholder}
-            ></input>
-          </form>
+          <Form className="container">
+            <Form.Group controlId="formBasicText" className="row">
+              <Form.Label className="col-4 m-0 align-self-center">
+                New user name:
+              </Form.Label>
+              <Form.Control
+                className="col-8"
+                type="text"
+                ref={props.inputRef}
+                defaultValue={props.modalPlaceholder}
+                style={{ width: "60%" }}
+              />
+            </Form.Group>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.handleClose}>
@@ -40,10 +47,18 @@ function ModalComponent(props) {
           <p>Are you sure you want to delete {props.modalPlaceholder} ?</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={props.handleClose}>
+          <Button
+            variant="secondary"
+            onClick={props.handleClose}
+            style={{ width: "20%" }}
+          >
             No
           </Button>
-          <Button variant="dark" onClick={props.submitHandlerDelete}>
+          <Button
+            variant="dark"
+            onClick={props.submitHandlerDelete}
+            style={{ width: "20%" }}
+          >
             Yes
           </Button>
         </Modal.Footer>
