@@ -30,23 +30,11 @@ function UsersForm() {
       setIsLoading(false);
       setError(error.message);
     }
-
-    // const date = new Date(users[0].createdAt);
-    // console.log(date);
-
-    // // get the date as a string
-    // const n = date.toDateString();
-
-    // // get the time as a string
-    // const time = date.toLocaleTimeString();
-
-    // // display date
-    // console.log(`${n}, ${time}`);
   }
 
   useEffect(() => {
     getUsers();
-  }, [users.length]);
+  }, []);
 
   // ********************************MODAL****************************
 
@@ -124,8 +112,6 @@ function UsersForm() {
       setError(error.message);
     }
   }
-
-  // ****************DISPLAY TIME*************************
 
   // ******************************CONTENT****************************
 

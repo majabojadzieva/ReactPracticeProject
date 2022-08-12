@@ -1,11 +1,12 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 function AddNewUser(props) {
   const nameRef = useRef();
   const history = useHistory();
+  const [error, setError] = useState(null);
 
   function newUserHandler(e) {
     e.preventDefault();
@@ -13,16 +14,29 @@ function AddNewUser(props) {
     const newUserData = {
       name: nameRef.current.value,
     };
+
     async function addUser() {
-      await fetch("https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/", {
-        method: "POST",
-        body: JSON.stringify(newUserData),
-        headers: { "Content-Type": "application/json" },
-      });
+      try {
+        const response = await fetch(
+          "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/",
+          {
+            method: "POST",
+            body: JSON.stringify(newUserData),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        nameRef.current.value = "";
+        history.replace("/users-list");
+      } catch (error) {
+        setError(error.message);
+      }
     }
     addUser();
-    nameRef.current.value = "";
-    history.replace("/users-list");
   }
 
   return (
@@ -42,6 +56,7 @@ function AddNewUser(props) {
           </Button>
         </Form>
       </div>
+      {error && <h5 className="text-center">{error}</h5>}
     </>
   );
 }
