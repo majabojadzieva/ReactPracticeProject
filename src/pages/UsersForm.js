@@ -66,6 +66,7 @@ function UsersForm() {
   // ********************************EDIT USER****************************
 
   async function submitHandlerEdit() {
+    setIsLoading(true);
     const response = await fetch(
       "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
         modalData.user.id,
@@ -86,12 +87,14 @@ function UsersForm() {
 
     users[selectedUserIndex].name = data.name;
 
+    setIsLoading(false);
     setModalData(initialModalData);
   }
 
   // ********************************DELETE USER****************************
 
   async function submitHandlerDelete() {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
@@ -108,7 +111,9 @@ function UsersForm() {
       );
       setUsers(updatedUsersList);
       handleClose();
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       setError(error.message);
     }
   }
@@ -176,6 +181,7 @@ function UsersForm() {
         handleClose={handleClose}
         inputRef={inputRef}
         modalPlaceholder={modalData.user.name}
+        isLoading={isLoading}
         // **********submit handlers
         submitHandlerEdit={submitHandlerEdit}
         submitHandlerDelete={submitHandlerDelete}

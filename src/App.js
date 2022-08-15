@@ -13,7 +13,6 @@ function App() {
       <main>
         <Switch>
           <Route path="/" exact component={UsersForm} />
-          <Route path="/users-list" exact component={UsersForm} />
           <Route path="/add-new-user" exact component={AddNewUser} />
           <Route path="*" exact>
             <Redirect to="/" />

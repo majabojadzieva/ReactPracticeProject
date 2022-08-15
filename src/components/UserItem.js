@@ -1,17 +1,14 @@
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 function UserItem(props) {
   return (
-    <div className="col-12 col-sm-6  col-lg-4 col-xxl-3">
-      <div
-        className="card justify-content-center"
-        style={{ width: "auto", margin: "1rem" }}
-      >
-        <img src={props.avataru} className="card-img-top" alt="" />
-        <div className="card-body">
-          <h5 className="card-title">{props.name}</h5>
-          <p className="card-text">Created at: {props.date}</p>
-
+    <div className="col-12 col-sm-6  col-lg-4 col-xxl-3  d-flex align-items-stretch">
+      <Card style={{ margin: "1rem" }}>
+        <Card.Img variant="top" src={props.avataru} />
+        <Card.Body>
+          <Card.Title>{props.name}</Card.Title>
+          <Card.Text>Created at: {props.date}</Card.Text>
           <div className="row justify-content-around">
             <Button
               variant="dark"
@@ -28,8 +25,8 @@ function UserItem(props) {
               Delete
             </button>
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 }

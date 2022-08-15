@@ -1,8 +1,53 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import Spinner from "react-bootstrap/Spinner";
 
 function ModalComponent(props) {
+  let saveChangesButton = (
+    <Button variant="dark" onClick={props.submitHandlerEdit}>
+      Save Changes
+    </Button>
+  );
+
+  let yesButton = (
+    <Button
+      variant="dark"
+      onClick={props.submitHandlerDelete}
+      style={{ width: "20%" }}
+    >
+      Yes
+    </Button>
+  );
+
+  if (props.isLoading) {
+    saveChangesButton = (
+      <Button variant="dark" disabled>
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Loading...
+      </Button>
+    );
+
+    yesButton = (
+      <Button variant="dark" disabled>
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Loading...
+      </Button>
+    );
+  }
+
   return (
     <>
       {/* ****************EDIT USER MODAL****************** */}
@@ -31,9 +76,7 @@ function ModalComponent(props) {
           <Button variant="secondary" onClick={props.handleClose}>
             Close
           </Button>
-          <Button variant="dark" onClick={props.submitHandlerEdit}>
-            Save Changes
-          </Button>
+          {saveChangesButton}
         </Modal.Footer>
       </Modal>
 
@@ -54,13 +97,7 @@ function ModalComponent(props) {
           >
             No
           </Button>
-          <Button
-            variant="dark"
-            onClick={props.submitHandlerDelete}
-            style={{ width: "20%" }}
-          >
-            Yes
-          </Button>
+          {yesButton}
         </Modal.Footer>
       </Modal>
     </>

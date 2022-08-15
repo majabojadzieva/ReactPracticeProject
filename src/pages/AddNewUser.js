@@ -2,15 +2,18 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
 
 function AddNewUser(props) {
   const nameRef = useRef();
   const history = useHistory();
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   function newUserHandler(e) {
     e.preventDefault();
-
+    setIsLoading(true);
     const newUserData = {
       name: nameRef.current.value,
     };
@@ -27,16 +30,42 @@ function AddNewUser(props) {
         );
 
         if (!response.ok) {
-          throw new Error("Something went wrong!");
+          setError(true);
         }
 
-        nameRef.current.value = "";
-        history.replace("/users-list");
+        if (response.ok) {
+          nameRef.current.value = "";
+          history.replace("/users-list");
+        }
+
+        setIsLoading(false);
       } catch (error) {
-        setError(error.message);
+        setIsLoading(false);
+        console.log(error.msg);
       }
     }
     addUser();
+  }
+
+  let buttonContent = (
+    <Button variant="dark" type="submit">
+      Submit
+    </Button>
+  );
+
+  if (isLoading) {
+    buttonContent = (
+      <Button variant="dark" disabled>
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Loading...
+      </Button>
+    );
   }
 
   return (
@@ -49,14 +78,23 @@ function AddNewUser(props) {
         <Form onSubmit={newUserHandler}>
           <Form.Group className="mb-3" controlId="formBasicText">
             <Form.Label>User name:</Form.Label>
-            <Form.Control type="text" ref={nameRef} />
+            <Form.Control
+              type="text"
+              ref={nameRef}
+              required
+              minlength="2"
+              maxlength="25"
+            />
           </Form.Group>
-          <Button variant="dark" type="submit">
-            Submit
-          </Button>
+          {error && (
+            <Alert className="p-1" variant="danger">
+              Something went wrong!
+            </Alert>
+          )}
+
+          {buttonContent}
         </Form>
       </div>
-      {error && <h5 className="text-center">{error}</h5>}
     </>
   );
 }
