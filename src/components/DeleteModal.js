@@ -9,6 +9,7 @@ export const DeleteModal = (props) => {
       variant="dark"
       onClick={props.submitHandlerDelete}
       style={{ width: "20%" }}
+      type="button"
     >
       Yes
     </Button>
@@ -45,11 +46,12 @@ export const DeleteModal = (props) => {
           </Alert>
         )}
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer style={{ border: "none" }}>
         <Button
           variant="secondary"
           onClick={props.handleClose}
           style={{ width: "20%" }}
+          type="button"
         >
           No
         </Button>

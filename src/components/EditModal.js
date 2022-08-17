@@ -6,14 +6,14 @@ import Alert from "react-bootstrap/Alert";
 
 export const EditModal = (props) => {
   let saveChangesButton = (
-    <Button variant="dark" onClick={props.submitHandlerEdit}>
+    <Button variant="dark" type="submit">
       Save Changes
     </Button>
   );
 
   if (props.isLoading) {
     saveChangesButton = (
-      <Button variant="dark" disabled>
+      <Button variant="dark" disabled type="submit">
         <Spinner
           as="span"
           animation="grow"
@@ -31,14 +31,14 @@ export const EditModal = (props) => {
       <Modal.Header closeButton>
         <Modal.Title>Edit user</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <Form className="container">
-          <Form.Group controlId="formBasicText" className="row">
+      <Modal.Body className="container">
+        <Form className="container " onSubmit={props.submitHandlerEdit}>
+          <Form.Group controlId="formBasicText" className="row pt-3 pb-4 ">
             <Form.Label className="col-4 m-0 align-self-center">
               New user name:
             </Form.Label>
             <Form.Control
-              className="col-8"
+              className="col-8 "
               type="text"
               required
               maxLength="25"
@@ -56,14 +56,24 @@ export const EditModal = (props) => {
               </Alert>
             )}
           </Form.Group>
+          <div
+            className="col pt-3"
+            style={{
+              textAlign: "right",
+            }}
+          >
+            <Button
+              variant="secondary"
+              onClick={props.handleClose}
+              type="button"
+              style={{ marginRight: "1rem" }}
+            >
+              Close
+            </Button>
+            {saveChangesButton}
+          </div>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={props.handleClose}>
-          Close
-        </Button>
-        {saveChangesButton}
-      </Modal.Footer>
     </Modal>
   );
 };

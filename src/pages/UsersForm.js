@@ -5,6 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import { DeleteModal } from "../components/DeleteModal";
 import { EditModal } from "../components/EditModal";
+import Form from "react-bootstrap/Form";
 
 function UsersForm() {
   const [users, setUsers] = useState([]);
@@ -68,44 +69,48 @@ function UsersForm() {
 
   // ********************************EDIT USER****************************
 
-  async function submitHandlerEdit() {
+  function submitHandlerEdit(e) {
+    e.preventDefault();
     setIsLoadingModal(true);
-    try {
-      const response = await fetch(
-        "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
-          modalData.user.id,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            name: inputRef.current.value,
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        setErrorModal(true);
-        setIsLoadingModal(false);
-        return;
-      }
-
-      if (response.ok) {
-        const data = await response.json();
-
-        const selectedUserIndex = users.findIndex(
-          (user) => user.id === data.id
+    async function editUser() {
+      try {
+        const response = await fetch(
+          "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
+            modalData.user.id,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              name: inputRef.current.value,
+            }),
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
         );
 
-        users[selectedUserIndex].name = data.name;
+        if (!response.ok) {
+          setErrorModal(true);
+          setIsLoadingModal(false);
+          return;
+        }
+
+        if (response.ok) {
+          const data = await response.json();
+
+          const selectedUserIndex = users.findIndex(
+            (user) => user.id === data.id
+          );
+
+          users[selectedUserIndex].name = data.name;
+          setIsLoadingModal(false);
+          setModalData(initialModalData);
+        }
+      } catch (error) {
         setIsLoadingModal(false);
-        setModalData(initialModalData);
+        setError(error.message);
       }
-    } catch (error) {
-      setIsLoadingModal(false);
-      setError(error.message);
     }
+    editUser();
   }
 
   // ********************************DELETE USER****************************
@@ -138,6 +143,22 @@ function UsersForm() {
     }
   }
 
+  // ******************************SEARCH USERS***************************
+  const searchRef = useRef();
+  const [enteredUser, setEnteredUser] = useState("");
+
+  const inputSearchHandler = () => {
+    setEnteredUser(searchRef.current.value);
+  };
+
+  useEffect(() => {
+    console.log(enteredUser);
+    const updatedUsersList = users.filter((user) =>
+      user.name.toLowerCase().includes(enteredUser)
+    );
+    setUsers(updatedUsersList);
+  }, [enteredUser]);
+
   // ******************************CONTENT****************************
 
   let content = (
@@ -150,7 +171,18 @@ function UsersForm() {
 
   if (!isLoading && !error) {
     content = (
-      <div className="container ml-3 mr-3">
+      <div className="container ml-3 mr-3 ">
+        <Form className="d-flex col-6 offset-3 mt-3 mb-3">
+          <Form.Control
+            type="search"
+            placeholder="Search"
+            className="me-2"
+            aria-label="Search"
+            onChange={inputSearchHandler}
+            ref={searchRef}
+            value={enteredUser}
+          />
+        </Form>
         <div className="row">
           {users.map((user) => {
             const displayDate = new Date(user.createdAt).toDateString();
