@@ -65,6 +65,8 @@ function ModalComponent(props) {
               <Form.Control
                 className="col-8"
                 type="text"
+                required
+                maxLength={25}
                 ref={props.inputRef}
                 defaultValue={props.modalPlaceholder}
                 style={{ width: "60%" }}

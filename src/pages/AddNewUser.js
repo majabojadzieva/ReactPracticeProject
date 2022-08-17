@@ -35,16 +35,14 @@ function AddNewUser(props) {
 
         if (response.ok) {
           nameRef.current.value = "";
-          history.replace("/users-list");
+          history.replace("/");
         }
-
-        setIsLoading(false);
       } catch (error) {
-        setIsLoading(false);
         console.log(error.msg);
       }
     }
     addUser();
+    setIsLoading(false);
   }
 
   let buttonContent = (
@@ -82,8 +80,8 @@ function AddNewUser(props) {
               type="text"
               ref={nameRef}
               required
-              minlength="2"
-              maxlength="25"
+              minLength="2"
+              maxLength="25"
             />
           </Form.Group>
           {error && (
