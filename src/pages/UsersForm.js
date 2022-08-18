@@ -151,14 +151,6 @@ function UsersForm() {
     setEnteredUser(searchRef.current.value);
   };
 
-  useEffect(() => {
-    console.log(enteredUser);
-    const updatedUsersList = users.filter((user) =>
-      user.name.toLowerCase().includes(enteredUser)
-    );
-    setUsers(updatedUsersList);
-  }, [enteredUser]);
-
   // ******************************CONTENT****************************
 
   let content = (
@@ -184,26 +176,28 @@ function UsersForm() {
           />
         </Form>
         <div className="row">
-          {users.map((user) => {
-            const displayDate = new Date(user.createdAt).toDateString();
-            const displayTime = new Date(user.createdAt).toLocaleTimeString();
-            const userCreatedAt = `${displayDate}, ${displayTime}`;
-            return (
-              <UserItem
-                key={user.id}
-                id={user.id}
-                name={user.name}
-                avataru={user.avataru}
-                date={userCreatedAt}
-                showEditHandler={() => {
-                  handleShowEdit(user.name, user.id);
-                }}
-                showDeleteHandler={() => {
-                  handleShowDelete(user.name, user.id);
-                }}
-              />
-            );
-          })}
+          {users
+            .filter((user) => user.name.toLowerCase().includes(enteredUser))
+            .map((user) => {
+              const displayDate = new Date(user.createdAt).toDateString();
+              const displayTime = new Date(user.createdAt).toLocaleTimeString();
+              const userCreatedAt = `${displayDate}, ${displayTime}`;
+              return (
+                <UserItem
+                  key={user.id}
+                  id={user.id}
+                  name={user.name}
+                  avataru={user.avataru}
+                  date={userCreatedAt}
+                  showEditHandler={() => {
+                    handleShowEdit(user.name, user.id);
+                  }}
+                  showDeleteHandler={() => {
+                    handleShowDelete(user.name, user.id);
+                  }}
+                />
+              );
+            })}
         </div>
       </div>
     );
