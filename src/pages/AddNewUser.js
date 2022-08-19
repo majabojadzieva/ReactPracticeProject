@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
+import { fetchPostRes } from "../services/services";
 
 function AddNewUser(props) {
   const nameRef = useRef();
@@ -17,32 +18,21 @@ function AddNewUser(props) {
     const newUserData = {
       name: nameRef.current.value,
     };
-
     async function addUser() {
-      try {
-        const response = await fetch(
-          "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/",
-          {
-            method: "POST",
-            body: JSON.stringify(newUserData),
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+      const response = await fetchPostRes("users", newUserData);
 
-        if (!response.ok) {
-          setError(true);
-        }
+      if (!response.ok) {
+        setError(true);
+        setIsLoading(false);
+      }
 
-        if (response.ok) {
-          nameRef.current.value = "";
-          history.replace("/");
-        }
-      } catch (error) {
-        console.log(error.msg);
+      if (response.ok) {
+        nameRef.current.value = "";
+        history.replace("/");
+        setIsLoading(false);
       }
     }
     addUser();
-    setIsLoading(false);
   }
 
   let buttonContent = (

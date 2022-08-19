@@ -6,34 +6,26 @@ import Button from "react-bootstrap/Button";
 import { DeleteModal } from "../components/DeleteModal";
 import { EditModal } from "../components/EditModal";
 import Form from "react-bootstrap/Form";
+import { fetchGetRes } from "../services/services";
+import { fetchPutRes } from "../services/services";
+import { fetchDeleteRes } from "../services/services";
 
 function UsersForm() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [errorModal, setErrorModal] = useState(null);
-  const [isLoadingModal, setIsLoadingModal] = useState(false);
 
   // **************************GET DATA********************************
   async function getUsers() {
     setIsLoading(true);
-    try {
-      const response = await fetch(
-        "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users"
-      );
-
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const data = await response.json();
-
-      setUsers(data);
+    const response = await fetchGetRes("users");
+    if (!response.ok) {
+      setError(true);
       setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      setError(error.message);
     }
+    const data = await response.json();
+    setUsers(data);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -49,6 +41,8 @@ function UsersForm() {
   };
 
   const [modalData, setModalData] = useState(initialModalData);
+  const [errorModal, setErrorModal] = useState(null);
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
   const inputRef = useRef();
 
   const handleClose = () => setModalData(initialModalData);
@@ -73,41 +67,25 @@ function UsersForm() {
     e.preventDefault();
     setIsLoadingModal(true);
     async function editUser() {
-      try {
-        const response = await fetch(
-          "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
-            modalData.user.id,
-          {
-            method: "PUT",
-            body: JSON.stringify({
-              name: inputRef.current.value,
-            }),
-            headers: {
-              "Content-type": "application/json",
-            },
-          }
-        );
+      const response = await fetchPutRes(
+        "users/" + modalData.user.id,
+        inputRef.current.value
+      );
 
-        if (!response.ok) {
-          setErrorModal(true);
-          setIsLoadingModal(false);
-          return;
-        }
-
-        if (response.ok) {
-          const data = await response.json();
-
-          const selectedUserIndex = users.findIndex(
-            (user) => user.id === data.id
-          );
-
-          users[selectedUserIndex].name = data.name;
-          setIsLoadingModal(false);
-          setModalData(initialModalData);
-        }
-      } catch (error) {
+      if (!response.ok) {
+        setErrorModal(true);
         setIsLoadingModal(false);
-        setError(error.message);
+        return;
+      }
+
+      if (response.ok) {
+        const data = await response.json();
+        const selectedUserIndex = users.findIndex(
+          (user) => user.id === data.id
+        );
+        users[selectedUserIndex].name = data.name;
+        setIsLoadingModal(false);
+        setModalData(initialModalData);
       }
     }
     editUser();
@@ -117,30 +95,20 @@ function UsersForm() {
 
   async function submitHandlerDelete() {
     setIsLoadingModal(true);
-    try {
-      const response = await fetch(
-        "https://62e27da2e8ad6b66d85cabf2.mockapi.io/api/v1/users/" +
-          modalData.user.id,
-        { method: "DELETE" }
-      );
+    const response = await fetchDeleteRes("users/" + modalData.user.id);
 
-      if (!response.ok) {
-        setErrorModal(true);
-        setIsLoadingModal(false);
-        return;
-      }
-
-      const updatedUsersList = users.filter(
-        (user) => user.id !== modalData.user.id
-      );
-
-      handleClose();
+    if (!response.ok) {
+      setErrorModal(true);
       setIsLoadingModal(false);
-      setUsers(updatedUsersList);
-    } catch (error) {
-      setIsLoadingModal(false);
-      setError(error.message);
+      return;
     }
+
+    const updatedUsersList = users.filter(
+      (user) => user.id !== modalData.user.id
+    );
+    handleClose();
+    setIsLoadingModal(false);
+    setUsers(updatedUsersList);
   }
 
   // ******************************SEARCH USERS***************************
@@ -204,7 +172,7 @@ function UsersForm() {
   }
 
   if (!isLoading && error) {
-    content = <h5 className="text-center">{error}</h5>;
+    content = <h5 className="text-center">Something went wrong!</h5>;
   }
 
   const emptyList = (
