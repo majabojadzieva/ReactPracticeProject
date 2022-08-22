@@ -1,11 +1,12 @@
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 
-export const ProtectedRoute = ({ component: Component, ...rest }) => {
+export const ProtectedRoute = ({ auth, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) => {
-        return <Component {...props} />;
+        if (auth) return <Component {...props} />;
+        if (!auth) return <Redirect to="/" />;
       }}
     />
   );

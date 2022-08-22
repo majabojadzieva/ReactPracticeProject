@@ -10,11 +10,19 @@ import { useState } from "react";
 
 function App() {
   const history = useHistory();
-  const [isAuth, setIsAuth] = useState();
+
+  let initialState;
+  if (localStorage.getItem("user")) {
+    initialState = true;
+  } else {
+    initialState = false;
+  }
+
+  const [isAuth, setIsAuth] = useState(initialState);
 
   const loginHandler = (e) => {
     e.preventDefault();
-    localStorage.setItem("user", isAuth);
+    localStorage.setItem("user", "isLogged");
     setIsAuth(true);
     history.replace("/users-form");
   };
@@ -35,8 +43,18 @@ function App() {
           <Route path="/" exact>
             <Login login={loginHandler} />
           </Route>
-          <ProtectedRoute path="/users-form" exact component={UsersForm} />
-          <ProtectedRoute path="/add-new-user" exact component={AddNewUser} />
+          <ProtectedRoute
+            path="/users-form"
+            exact
+            component={UsersForm}
+            auth={isAuth}
+          />
+          <ProtectedRoute
+            path="/add-new-user"
+            exact
+            component={AddNewUser}
+            auth={isAuth}
+          />
           <Route path="*" exact>
             <Redirect to="/" />
           </Route>
