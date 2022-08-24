@@ -9,7 +9,7 @@ function Navigation(props) {
     <Navbar expand="lg" bg="dark" variant="dark">
       <Container>
         <NavLink
-          style={{ color: "white", "text-decoration": "none" }}
+          style={{ color: "white", textDecoration: "none" }}
           to={({ isActive }) => (isActive ? void 0 : "/users-form")}
         >
           My Users Project

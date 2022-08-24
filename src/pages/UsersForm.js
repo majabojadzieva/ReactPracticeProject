@@ -6,8 +6,8 @@ import Button from "react-bootstrap/Button";
 import { DeleteModal } from "../components/DeleteModal";
 import { EditModal } from "../components/EditModal";
 import Form from "react-bootstrap/Form";
-import { fetchGetRes } from "../services/services";
-import { fetchPutRes } from "../services/services";
+import { fetchGetJson } from "../services/services";
+import { fetchPutJson } from "../services/services";
 import { fetchDeleteRes } from "../services/services";
 
 function UsersForm() {
@@ -18,12 +18,13 @@ function UsersForm() {
   // **************************GET DATA********************************
   async function getUsers() {
     setIsLoading(true);
-    const response = await fetchGetRes("users");
+    const [response, data] = await fetchGetJson("users");
+
     if (!response.ok) {
       setError(true);
       setIsLoading(false);
     }
-    const data = await response.json();
+
     setUsers(data);
     setIsLoading(false);
   }
@@ -67,7 +68,7 @@ function UsersForm() {
     e.preventDefault();
     setIsLoadingModal(true);
     async function editUser() {
-      const response = await fetchPutRes(
+      const [response, data] = await fetchPutJson(
         "users/" + modalData.user.id,
         inputRef.current.value
       );
@@ -78,15 +79,10 @@ function UsersForm() {
         return;
       }
 
-      if (response.ok) {
-        const data = await response.json();
-        const selectedUserIndex = users.findIndex(
-          (user) => user.id === data.id
-        );
-        users[selectedUserIndex].name = data.name;
-        setIsLoadingModal(false);
-        setModalData(initialModalData);
-      }
+      const selectedUserIndex = users.findIndex((user) => user.id === data.id);
+      users[selectedUserIndex].name = data.name;
+      setIsLoadingModal(false);
+      setModalData(initialModalData);
     }
     editUser();
   }

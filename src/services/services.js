@@ -1,16 +1,18 @@
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const fetchGetRes = (url) => {
+export const fetchGetJson = async (url) => {
   try {
-    return fetch(apiUrl + url);
+    const response = await fetch(apiUrl + url);
+    const data = await response.json();
+    return [response, data];
   } catch (error) {
     return error;
   }
 };
 
-export const fetchPutRes = (url, userName) => {
+export const fetchPutJson = async (url, userName) => {
   try {
-    return fetch(apiUrl + url, {
+    const response = await fetch(apiUrl + url, {
       method: "PUT",
       body: JSON.stringify({
         name: userName,
@@ -19,6 +21,8 @@ export const fetchPutRes = (url, userName) => {
         "Content-type": "application/json",
       },
     });
+    const data = await response.json();
+    return [response, data];
   } catch (error) {
     return error;
   }
