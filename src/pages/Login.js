@@ -24,8 +24,9 @@ export const Login = (props) => {
             <Form.Control
               type="password"
               placeholder="Password"
+              required
               pattern={
-                "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$"
+                "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
               }
               title="Password must contain at least 8 characters, one number, one uppercase
              letter and one special character."
