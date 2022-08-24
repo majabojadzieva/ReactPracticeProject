@@ -2,14 +2,18 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
+import { NavLink } from "react-router-dom";
 
 function Navigation(props) {
-  const homePage = localStorage.getItem("user") === null ? "/" : "/users-form";
-
   return (
     <Navbar expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href={homePage}>My Users Project</Navbar.Brand>
+        <NavLink
+          style={{ color: "white", "text-decoration": "none" }}
+          to={({ isActive }) => (isActive ? void 0 : "/users-form")}
+        >
+          My Users Project
+        </NavLink>
 
         {localStorage.getItem("user") !== null && (
           <>
