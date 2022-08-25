@@ -40,9 +40,14 @@ function App() {
       </header>
       <main>
         <Switch>
-          <Route path="/" exact>
-            <Login login={loginHandler} />
-          </Route>
+          <ProtectedRoute
+            path="/"
+            exact
+            authLogin={isAuth}
+            component={Login}
+            login={loginHandler}
+          />
+
           <ProtectedRoute
             path="/users-form"
             exact
