@@ -36,14 +36,14 @@ function AddNewUser(props) {
   }
 
   let buttonContent = (
-    <Button variant="dark" type="submit">
+    <Button variant="primary" type="submit">
       Submit
     </Button>
   );
 
   if (isLoading) {
     buttonContent = (
-      <Button variant="dark" disabled>
+      <Button variant="primary" disabled>
         <Spinner
           as="span"
           animation="grow"

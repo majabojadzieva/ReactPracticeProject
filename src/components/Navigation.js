@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 
 function Navigation(props) {
   return (
-    <Navbar expand="lg" bg="dark" variant="dark">
+    <Navbar expand="lg" bg="primary" variant="primary">
       <Container>
         <NavLink
           style={{ color: "white", textDecoration: "none" }}
@@ -18,7 +18,9 @@ function Navigation(props) {
         {localStorage.getItem("user") !== null && (
           <>
             <Nav>
-              <Nav.Link href="/add-new-user">Add new user</Nav.Link>
+              <Nav.Link href="/add-new-user" style={{ color: "#b9aeb3" }}>
+                Add new user
+              </Nav.Link>
               <Button variant="outline-light" onClick={props.logout}>
                 Logout
               </Button>

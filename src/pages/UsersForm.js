@@ -174,7 +174,7 @@ function UsersForm() {
       <p>The list is empty.</p>
 
       <Nav.Link href="/add-new-user">
-        <Button variant="dark">Add user</Button>
+        <Button variant="primary">Add user</Button>
       </Nav.Link>
     </div>
   );

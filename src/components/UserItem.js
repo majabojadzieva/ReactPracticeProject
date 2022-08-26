@@ -11,7 +11,7 @@ function UserItem(props) {
           <Card.Text>Created at: {props.date}</Card.Text>
           <div className="row justify-content-around">
             <Button
-              variant="dark"
+              variant="primary"
               onClick={props.showEditHandler}
               className="col-5 "
             >

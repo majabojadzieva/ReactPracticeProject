@@ -35,17 +35,10 @@ function App() {
 
   // **********************************ONCHANGE HANDLERS********************
 
-  const enteredEmailHandler = (e) => {
+  const enteredDataHandler = (e) => {
     setEnteredLoginData({
-      email: e.target.value,
-      password: enteredLoginData.password,
-    });
-  };
-
-  const enteredPassHandler = (e) => {
-    setEnteredLoginData({
-      email: enteredLoginData.email,
-      password: e.target.value,
+      ...enteredLoginData,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -53,7 +46,7 @@ function App() {
 
   const loginHandler = (e) => {
     e.preventDefault();
-
+    console.log(enteredLoginData);
     if (
       enteredLoginData.email !== "test@test.com" &&
       enteredLoginData.password === "Test1234!"
@@ -112,8 +105,7 @@ function App() {
             authLogin={isAuth}
             component={Login}
             login={loginHandler}
-            enteredEmailData={enteredEmailHandler}
-            enteredPassData={enteredPassHandler}
+            enteredData={enteredDataHandler}
             alert={wrongDataMessage}
           />
 

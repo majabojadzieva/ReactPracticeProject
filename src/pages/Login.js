@@ -18,7 +18,8 @@ export const Login = (props) => {
               placeholder="Enter email"
               required
               minLength="2"
-              onChange={props.enteredEmailData}
+              onChange={props.enteredData}
+              name="email"
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -32,7 +33,8 @@ export const Login = (props) => {
               }
               title="Password must contain at least 8 characters, one number, one uppercase
              letter and one special character."
-              onChange={props.enteredPassData}
+              onChange={props.enteredData}
+              name="password"
             />
           </Form.Group>
           {props.alert.email && (
@@ -50,7 +52,7 @@ export const Login = (props) => {
               The email and password you've entered are incorrect.
             </Alert>
           )}
-          <Button variant="dark" type="submit">
+          <Button variant="primary" type="submit">
             Log in
           </Button>
         </Form>

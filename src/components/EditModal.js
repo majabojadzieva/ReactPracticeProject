@@ -6,14 +6,14 @@ import Alert from "react-bootstrap/Alert";
 
 export const EditModal = (props) => {
   let saveChangesButton = (
-    <Button variant="dark" type="submit">
+    <Button variant="primary" type="submit">
       Save Changes
     </Button>
   );
 
   if (props.isLoading) {
     saveChangesButton = (
-      <Button variant="dark" disabled type="submit">
+      <Button variant="primary" disabled type="submit">
         <Spinner
           as="span"
           animation="grow"

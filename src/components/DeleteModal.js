@@ -6,7 +6,7 @@ import Alert from "react-bootstrap/Alert";
 export const DeleteModal = (props) => {
   let yesButton = (
     <Button
-      variant="dark"
+      variant="primary"
       onClick={props.submitHandlerDelete}
       style={{ width: "20%" }}
       type="button"
@@ -17,7 +17,7 @@ export const DeleteModal = (props) => {
 
   if (props.isLoading) {
     yesButton = (
-      <Button variant="dark" disabled>
+      <Button variant="primary" disabled>
         <Spinner
           as="span"
           animation="grow"
