@@ -1,5 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
 
 export const Login = (props) => {
   return (
@@ -17,6 +18,7 @@ export const Login = (props) => {
               placeholder="Enter email"
               required
               minLength="2"
+              onChange={props.enteredEmailData}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -30,8 +32,24 @@ export const Login = (props) => {
               }
               title="Password must contain at least 8 characters, one number, one uppercase
              letter and one special character."
+              onChange={props.enteredPassData}
             />
           </Form.Group>
+          {props.alert.email && (
+            <Alert variant="danger">
+              The email you've entered is incorrect.
+            </Alert>
+          )}
+          {props.alert.password && (
+            <Alert variant="danger">
+              The password you've entered is incorrect.
+            </Alert>
+          )}
+          {props.alert.email === false && props.alert.password === false && (
+            <Alert variant="danger">
+              The email and password you've entered are incorrect.
+            </Alert>
+          )}
           <Button variant="dark" type="submit">
             Log in
           </Button>

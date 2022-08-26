@@ -10,7 +10,7 @@ function Navigation(props) {
       <Container>
         <NavLink
           style={{ color: "white", textDecoration: "none" }}
-          to={({ isActive }) => (isActive ? void 0 : "/users-form")}
+          to={({ isActive }) => (isActive ? void 0 : "/")}
         >
           My Users Project
         </NavLink>
@@ -18,7 +18,6 @@ function Navigation(props) {
         {localStorage.getItem("user") !== null && (
           <>
             <Nav>
-              <Nav.Link href="/users-form">Users List</Nav.Link>
               <Nav.Link href="/add-new-user">Add new user</Nav.Link>
               <Button variant="outline-light" onClick={props.logout}>
                 Logout

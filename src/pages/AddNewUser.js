@@ -28,7 +28,7 @@ function AddNewUser(props) {
 
       if (response.ok) {
         nameRef.current.value = "";
-        history.replace("/users-form");
+        history.replace("/");
         setIsLoading(false);
       }
     }

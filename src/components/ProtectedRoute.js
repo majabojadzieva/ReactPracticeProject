@@ -14,10 +14,10 @@ export const ProtectedRoute = ({
           return <Component {...props} />;
         }
         if (auth === false) {
-          return <Redirect to="/" />;
+          return <Redirect to="/login" />;
         }
         if (authLogin === true) {
-          return <Redirect to="/users-form" />;
+          return <Redirect to="/" />;
         }
         if (authLogin === false) {
           return <Component {...props} {...rest} />;

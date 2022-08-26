@@ -1,15 +1,16 @@
 import "./App.css";
 import Navigation from "./components/Navigation";
 import UsersForm from "./pages/UsersForm";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import AddNewUser from "./pages/AddNewUser";
 import { Login } from "./pages/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
 
 function App() {
   const history = useHistory();
+
+  // **********************************AUTH STATE*************************
 
   let initialState;
   if (localStorage.getItem("user")) {
@@ -20,18 +21,83 @@ function App() {
 
   const [isAuth, setIsAuth] = useState(initialState);
 
+  // **********************************LOGIN STATE*************************
+
+  const [enteredLoginData, setEnteredLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [wrongDataMessage, setWrongDataMessage] = useState({
+    email: null,
+    password: null,
+  });
+
+  // **********************************ONCHANGE HANDLERS********************
+
+  const enteredEmailHandler = (e) => {
+    setEnteredLoginData({
+      email: e.target.value,
+      password: enteredLoginData.password,
+    });
+  };
+
+  const enteredPassHandler = (e) => {
+    setEnteredLoginData({
+      email: enteredLoginData.email,
+      password: e.target.value,
+    });
+  };
+
+  // **********************************LOGIN HANDLER************************
+
   const loginHandler = (e) => {
     e.preventDefault();
-    localStorage.setItem("user", "isLogged");
-    setIsAuth(true);
-    history.replace("/users-form");
+
+    if (
+      enteredLoginData.email !== "test@test.com" &&
+      enteredLoginData.password === "Test1234!"
+    ) {
+      setWrongDataMessage({ email: true, password: false });
+    }
+
+    if (
+      enteredLoginData.email === "test@test.com" &&
+      enteredLoginData.password !== "Test1234!"
+    ) {
+      setWrongDataMessage({ email: false, password: true });
+    }
+
+    if (
+      enteredLoginData.email !== "test@test.com" &&
+      enteredLoginData.password !== "Test1234!"
+    ) {
+      setWrongDataMessage({ email: false, password: false });
+    }
+
+    if (
+      enteredLoginData.email === "test@test.com" &&
+      enteredLoginData.password === "Test1234!"
+    ) {
+      localStorage.setItem("user", "isLogged");
+      setIsAuth(true);
+      history.replace("/");
+      setWrongDataMessage({
+        email: null,
+        password: null,
+      });
+    }
   };
+
+  // **********************************LOGOUT HANDLER*************************
 
   function logoutHandler() {
     localStorage.clear();
     setIsAuth(false);
-    history.replace("/");
+    history.replace("/login");
   }
+
+  // **********************************RETURN**********************************
 
   return (
     <>
@@ -41,19 +107,17 @@ function App() {
       <main>
         <Switch>
           <ProtectedRoute
-            path="/"
+            path="/login"
             exact
             authLogin={isAuth}
             component={Login}
             login={loginHandler}
+            enteredEmailData={enteredEmailHandler}
+            enteredPassData={enteredPassHandler}
+            alert={wrongDataMessage}
           />
 
-          <ProtectedRoute
-            path="/users-form"
-            exact
-            component={UsersForm}
-            auth={isAuth}
-          />
+          <ProtectedRoute path="/" exact component={UsersForm} auth={isAuth} />
           <ProtectedRoute
             path="/add-new-user"
             exact

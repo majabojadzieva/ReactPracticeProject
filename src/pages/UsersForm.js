@@ -108,11 +108,10 @@ function UsersForm() {
   }
 
   // ******************************SEARCH USERS***************************
-  const searchRef = useRef();
   const [enteredUser, setEnteredUser] = useState("");
 
-  const inputSearchHandler = () => {
-    setEnteredUser(searchRef.current.value);
+  const inputSearchHandler = (e) => {
+    setEnteredUser(e.target.value);
   };
 
   // ******************************CONTENT****************************
@@ -135,7 +134,6 @@ function UsersForm() {
             className="me-2"
             aria-label="Search"
             onChange={inputSearchHandler}
-            ref={searchRef}
             value={enteredUser}
           />
         </Form>
