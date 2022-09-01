@@ -12,3 +12,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+header {
+  font-size: large;
+  text-align: center;
+}
+
+main {
+  font-size: large;
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+$dark: #262626;
+$primary: #212121;
+
+$body-bg: rgb(199, 226, 235);
+$input-bg: white;
+
+@import "~bootstrap/scss/bootstrap.scss";

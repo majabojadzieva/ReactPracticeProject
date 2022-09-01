@@ -1,9 +1,8 @@
-import Container from "react-bootstrap/Container";
+import { NavLink, useHistory } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import { NavLink } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
 
 function Navigation(props) {
   const history = useHistory();

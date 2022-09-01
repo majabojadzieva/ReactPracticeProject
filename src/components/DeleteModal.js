@@ -1,7 +1,7 @@
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 
 export const DeleteModal = (props) => {
   let yesButton = (

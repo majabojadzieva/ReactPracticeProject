@@ -1,21 +1,35 @@
 import React, { useEffect, useState, useRef } from "react";
-import UserItem from "../components/UserItem";
 import Spinner from "react-bootstrap/Spinner";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
-import { DeleteModal } from "../components/DeleteModal";
-import { EditModal } from "../components/EditModal";
 import Form from "react-bootstrap/Form";
+
+import UserItem from "../components/UserItem";
 import { fetchGetJson } from "../services/services";
+import { EditModal } from "../components/EditModal";
 import { fetchPutJson } from "../services/services";
 import { fetchDeleteRes } from "../services/services";
+import { DeleteModal } from "../components/DeleteModal";
 
 function UsersForm() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [enteredUser, setEnteredUser] = useState("");
 
-  // **************************GET DATA********************************
+  const initialModalData = {
+    showEdit: false,
+    showDelete: false,
+    user: { name: "", id: "" },
+  };
+
+  const [modalData, setModalData] = useState(initialModalData);
+  const [errorModal, setErrorModal] = useState(null);
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
+  const inputRef = useRef();
+
+  // Get data
+
   async function getUsers() {
     setIsLoading(true);
     const [response, data] = await fetchGetJson("users");
@@ -33,18 +47,7 @@ function UsersForm() {
     getUsers();
   }, []);
 
-  // ********************************MODAL****************************
-
-  const initialModalData = {
-    showEdit: false,
-    showDelete: false,
-    user: { name: "", id: "" },
-  };
-
-  const [modalData, setModalData] = useState(initialModalData);
-  const [errorModal, setErrorModal] = useState(null);
-  const [isLoadingModal, setIsLoadingModal] = useState(false);
-  const inputRef = useRef();
+  // Modal
 
   const handleClose = () => setModalData(initialModalData);
 
@@ -62,7 +65,7 @@ function UsersForm() {
       user: { name: userName, id: userId },
     });
 
-  // ********************************EDIT USER****************************
+  // *Edit user
 
   function submitHandlerEdit(e) {
     e.preventDefault();
@@ -87,7 +90,7 @@ function UsersForm() {
     editUser();
   }
 
-  // ********************************DELETE USER****************************
+  // Delete user
 
   async function submitHandlerDelete() {
     setIsLoadingModal(true);
@@ -107,14 +110,7 @@ function UsersForm() {
     setUsers(updatedUsersList);
   }
 
-  // ******************************SEARCH USERS***************************
-  const [enteredUser, setEnteredUser] = useState("");
-
-  const inputSearchHandler = (e) => {
-    setEnteredUser(e.target.value);
-  };
-
-  // ******************************CONTENT****************************
+  // Content
 
   let content = (
     <div className="text-center">
@@ -133,7 +129,9 @@ function UsersForm() {
             placeholder="Search"
             className="me-2"
             aria-label="Search"
-            onChange={inputSearchHandler}
+            onChange={(e) => {
+              setEnteredUser(e.target.value);
+            }}
             value={enteredUser}
           />
         </Form>
@@ -179,7 +177,7 @@ function UsersForm() {
     </div>
   );
 
-  // ***************************RETURN***************************
+  // Return
 
   return (
     <>

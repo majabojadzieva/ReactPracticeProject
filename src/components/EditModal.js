@@ -1,8 +1,8 @@
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 
 export const EditModal = (props) => {
   let saveChangesButton = (

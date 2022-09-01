@@ -1,9 +1,10 @@
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
+
 import { fetchPostRes } from "../services/services";
 
 function AddNewUser(props) {

@@ -1,9 +1,9 @@
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 function UserItem(props) {
   return (
-    <div className="col-12 col-sm-6  col-lg-4 col-xxl-3  d-flex align-items-stretch">
+    <div className="col-xs-12 col-sm-6  col-lg-4 col-xxl-3">
       <Card style={{ margin: "1rem" }}>
         <Card.Img variant="top" src={props.avataru} />
         <Card.Body>

@@ -1,21 +1,24 @@
-import "./App.css";
-import Navigation from "./components/Navigation";
-import UsersForm from "./pages/UsersForm";
+import { useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import AddNewUser from "./pages/AddNewUser";
+
 import { Login } from "./pages/Login";
+import UsersForm from "./pages/UsersForm";
+import AddNewUser from "./pages/AddNewUser";
+import Navigation from "./components/Navigation";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { useState } from "react";
 
 function App() {
-  let initialState;
-  if (localStorage.getItem("user")) {
-    initialState = true;
-  } else {
-    initialState = false;
-  }
+  const [isAuth, setIsAuth] = useState(null);
 
-  const [isAuth, setIsAuth] = useState(initialState);
+  useEffect(() => {
+    let initialState;
+    if (localStorage.getItem("user")) {
+      initialState = true;
+    } else {
+      initialState = false;
+    }
+    setIsAuth(initialState);
+  }, []);
 
   return (
     <>
